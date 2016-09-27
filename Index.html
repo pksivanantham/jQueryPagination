@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-12" id="tableWithPagination" style="display:none">
         <div class="row">
-            <table class="table" id="tableForPagination">
+            <table class="table" id="tableForPagination" style="height :430px;">
                 <thead>
                     <tr>
                         <td>
@@ -184,8 +184,8 @@
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>-->
-                    <li>
-                        <a href="#" aria-label="Next" id="nextPage">
+                    <li id="nextPage">
+                        <a href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -225,25 +225,28 @@
 
             var totalCount = 0,totalNumberOfPages=0;
             totalCount = $(table + ' tbody tr').length;
-            var quotient = totalCount / 10;
+            var quotient = parseInt( totalCount / 10);
+            console.log(quotient);
             var remainder = totalCount % 10;
+            console.log(remainder);
             totalNumberOfPages = quotient + (remainder > 0 ? 1 : 0);
-            
+            console.log(totalNumberOfPages);
             var table = $(table);
             var from=0,to = 10;
             
             var buildPageIndex = function () {
-                var currentPage = null;
+                var $currentPage = null;
                 for (var i = 1; i <= totalNumberOfPages; i++) {
     
                     if(i==1)
                     {
-                        currentPage=  $(" <li><a href='#'>" + i + "</a></li>").addClass('active');
+                        $currentPage=  $(" <li><a href='#'>" + i + "</a></li>").addClass('active');
                     }
                     else
                     {
-                        currentPage=  $(" <li><a href='#'>" + i + "</a></li>");
+                        $currentPage=  $(" <li><a href='#'>" + i + "</a></li>");
                     }
+                    console.log($currentPage);
                     $currentPage.insertBefore("#nextPage");
                 }
                 
