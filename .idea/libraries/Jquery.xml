@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Jquery" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/Content/js/bootstrap.js" />
+        <item url="file://$PROJECT_DIR$/Scripts/jquery.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Scripts/jquery.min.js" />
+      <root url="file://$PROJECT_DIR$/Content/js/bootstrap.min.js" />
+      <root url="file://$PROJECT_DIR$/Content/js/bootstrap.js" />
+      <root url="file://$PROJECT_DIR$/Content/js/npm.js" />
+      <root url="file://$PROJECT_DIR$/Scripts/jquery.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
