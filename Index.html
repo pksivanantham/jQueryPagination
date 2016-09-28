@@ -8,9 +8,9 @@
 </head>
 <body>
     <script type="text/javascript"  src="content/js/bootstrap.js"></script>
-    <!--<div class="jumbotron">
+    <div class="jumbotron">
         <h1 style="text-align: center;"><span class="label label-default">Sample Pagination Grid</span></h1>
-    </div>-->
+    </div>
     <div class=" col-md-12">
         <button type="button" class="btn btn-primary" onclick="fnShowTable(this)">Load The table</button> 
     </div>
@@ -174,7 +174,7 @@
             </table>
             <nav aria-label="Page navigation">
                 <ul class="pagination pagination-lg">
-                    <li class="disabled">
+                    <li class="disabled" id="prevPage">
                         <a href="#" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
@@ -210,10 +210,30 @@
             var tableObj = fnPaginationForTable('#tableForPagination');                        
             //$("table tbody tr:lt(10)").show();
           
-            $("ul li a").on('click', function () {                                
-                tableObj.next($(this).text());
+            $("ul li a").on('click', function () {
+                var nextPage=0;
+                console.log($(this).text().trim())
+                if(isNaN($(this).text()))
+                {
+                    if($(this).text().trim()=="»")
+                    {
+                        nextPage=parseInt( $("ul li[class='active']").text())+1;
+                    }
+                    else
+                    {
+                        nextPage=parseInt( $("ul li[class='active']").text())-1;
+                    }
+
+                }
+                else
+                {
+                    nextPage=$(this).text().trim();
+
+                }
+                tableObj.next(nextPage);
                 $("ul li").removeClass('active');
-                $(this).closest('li').addClass('active')                
+                $("ul li:eq("+nextPage+")").addClass('active');
+                //$(this).closest('li').addClass('active')
             });
 
         });
@@ -246,23 +266,47 @@
                     {
                         $currentPage=  $(" <li><a href='#'>" + i + "</a></li>");
                     }
-                    console.log($currentPage);
                     $currentPage.insertBefore("#nextPage");
                 }
                 
             };
+            var moveToSpecifiedPageNumber=function(pageIndex)
+            {
+                if(pageIndex==totalNumberOfPages&&pageIndex==1)
+                {
+                    $("#nextPage").addClass('disabled');
+                    $("#prevPage").addClass('disabled');
+                }
+                else if(pageIndex==totalNumberOfPages)
+                {
+                    $("#nextPage").addClass('disabled');
+                    $("#prevPage").removeClass('disabled');
+                }
+                else if(pageIndex==1)
+                {
+
+                    $("#prevPage").addClass('disabled');
+                    $("#nextPage").removeClass('disabled');
+                }
+                else
+                {
+                    $("#prevPage").removeClass('disabled');
+                    $("#nextPage").removeClass('disabled');
+                }
+                $("table tbody tr").hide();
+                from = (parseInt(pageIndex) - 1) * 10;
+                to = parseInt(pageIndex) * 10;
+                $("table tbody tr").slice(from, to).show();
+            };
             buildPageIndex();
+            moveToSpecifiedPageNumber(1)
             return {
                 from:from,
                 to:to,
                 totalCount: totalCount,               
                 table: table,
-                next:function(pageIndex)
-                {
-                    $("table tbody tr").hide();
-                    from = (parseInt(pageIndex) - 1) * 10;
-                    to = parseInt(pageIndex) * 10;
-                    $("table tbody tr").slice(from, to).show();
+                next:function(e){
+                    moveToSpecifiedPageNumber(e)
                 }
 
             }
